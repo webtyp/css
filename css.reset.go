@@ -111,9 +111,47 @@ func resetRules() []item {
 		// silently uppercases the dropdown on two browsers only. The native
 		// arrow stays: it is the only affordance the control has, and
 		// webtyp/form owns replacing it.
+		// Select controls: modern styled appearance with custom chevron arrow,
+		// consistent with webtyp/components (ColorSurface, ColorOutline, RadiusMd, TextSm).
 		rule(selector("select"),
-			rawRule("  text-transform: none;"),
+			rawRule("  -webkit-appearance: none;\n  appearance: none;\n  font: inherit;\n  font-size: "+TextSm.Var()+";\n  color: "+ColorOnSurface.Var()+";\n  background-color: "+ColorSurface.Var()+";\n  border: 1px solid "+ColorOutline.Var()+";\n  border-radius: "+RadiusMd.Var()+";\n  padding: "+Space2.Var()+" "+Space8.Var()+" "+Space2.Var()+" "+Space3.Var()+";\n  min-height: 2.25rem;\n  line-height: "+LeadingNormal.Var()+";\n  cursor: pointer;\n  background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236E6E73'%3E%3Cpath fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/%3E%3C/svg%3E\");\n  background-repeat: no-repeat;\n  background-position: right 0.6rem center;\n  background-size: 1.25rem 1.25rem;\n  text-transform: none;\n  transition: border-color 0.15s ease, box-shadow 0.15s ease;"),
 		),
+		rule(selector("select:hover:not(:disabled)"),
+			rawRule("  border-color: "+ColorMuted.Var()+";"),
+		),
+		rule(selector("select:disabled"),
+			rawRule("  opacity: 0.5;\n  cursor: not-allowed;\n  background-color: "+ColorSurfaceSunken.Var()+";"),
+		),
+		rule(selector("select option"),
+			rawRule("  background-color: "+ColorSurface.Var()+";\n  color: "+ColorOnSurface.Var()+";"),
+		),
+		// Checkbox controls: styled with primary color, smooth corners and clean checkmark.
+		rule(selector("input[type=\"checkbox\"]"),
+			rawRule("  -webkit-appearance: none;\n  appearance: none;\n  margin: 0;\n  width: 1.125rem;\n  height: 1.125rem;\n  flex-shrink: 0;\n  vertical-align: middle;\n  border: 1px solid "+ColorOutline.Var()+";\n  border-radius: "+RadiusSm.Var()+";\n  background-color: "+ColorSurface.Var()+";\n  cursor: pointer;\n  display: inline-grid;\n  place-content: center;\n  transition: background-color 0.15s ease, border-color 0.15s ease;"),
+		),
+		rule(selector("input[type=\"checkbox\"]:hover:not(:disabled)"),
+			rawRule("  border-color: "+ColorMuted.Var()+";"),
+		),
+		rule(selector("input[type=\"checkbox\"]:checked"),
+			rawRule("  background-color: "+ColorPrimary.Var()+";\n  border-color: "+ColorPrimary.Var()+";\n  background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3E%3Cpath d='M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'/%3E%3C/svg%3E\");\n  background-repeat: no-repeat;\n  background-position: center;\n  background-size: 75% 75%;"),
+		),
+		rule(selector("input[type=\"checkbox\"]:disabled"),
+			rawRule("  opacity: 0.5;\n  cursor: not-allowed;\n  background-color: "+ColorSurfaceSunken.Var()+";"),
+		),
+		// Radio controls: styled with primary color, circular shape and centered indicator.
+		rule(selector("input[type=\"radio\"]"),
+			rawRule("  -webkit-appearance: none;\n  appearance: none;\n  margin: 0;\n  width: 1.125rem;\n  height: 1.125rem;\n  flex-shrink: 0;\n  vertical-align: middle;\n  border: 1px solid "+ColorOutline.Var()+";\n  border-radius: "+RadiusFull.Var()+";\n  background-color: "+ColorSurface.Var()+";\n  cursor: pointer;\n  display: inline-grid;\n  place-content: center;\n  transition: background-color 0.15s ease, border-color 0.15s ease;"),
+		),
+		rule(selector("input[type=\"radio\"]:hover:not(:disabled)"),
+			rawRule("  border-color: "+ColorMuted.Var()+";"),
+		),
+		rule(selector("input[type=\"radio\"]:checked"),
+			rawRule("  border-color: "+ColorPrimary.Var()+";\n  background-color: "+ColorPrimary.Var()+";\n  background-image: radial-gradient(circle, "+ColorOnPrimary.Var()+" 35%, transparent 40%);"),
+		),
+		rule(selector("input[type=\"radio\"]:disabled"),
+			rawRule("  opacity: 0.5;\n  cursor: not-allowed;\n  background-color: "+ColorSurfaceSunken.Var()+";"),
+		),
+
 		// Firefox ships placeholders at opacity 0.54, so the same muted colour
 		// reads lighter there than on Chrome or Safari.
 		rule(selector("::placeholder"),

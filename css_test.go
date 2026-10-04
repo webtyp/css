@@ -129,6 +129,25 @@ func TestRenderCSS_LeavesCheckboxAndRadioNative(t *testing.T) {
 	}
 }
 
+func TestRenderCSS_SelectCheckboxRadioReset(t *testing.T) {
+	got := RenderCSS().String()
+	for _, check := range []struct {
+		desc, target string
+	}{
+		{"select styled with custom arrow", `select {`},
+		{"select chevron background", `url("data:image/svg+xml,%3Csvg`},
+		{"checkbox appearance none and primary color", `input[type="checkbox"]`},
+		{"checkbox checked rule", `input[type="checkbox"]:checked`},
+		{"radio appearance none and full radius", `input[type="radio"]`},
+		{"radio checked rule", `input[type="radio"]:checked`},
+	} {
+		if !strings.Contains(got, check.target) {
+			t.Errorf("expected reset to contain %s (%q)", check.desc, check.target)
+		}
+	}
+}
+
+
 // Author styles outrank the UA stylesheet whatever their layer, so
 // `img, svg, video { display: block }` defeats the UA's own [hidden] rule
 // unless the reset restates it.
