@@ -505,3 +505,14 @@ func TestDangerWashMixStaysRed(t *testing.T) {
 		t.Errorf("danger wash must fade 70%% (reads red, not pink), got: %s", dark)
 	}
 }
+
+func TestRenderCSS_SwitchControls(t *testing.T) {
+	render := RenderCSS().String()
+	if !strings.Contains(render, `input[type="checkbox"][role="switch"], input[type="checkbox"].switch`) {
+		t.Errorf("RenderCSS missing switch toggle selector")
+	}
+	if !strings.Contains(render, "transform: translateX(1rem)") {
+		t.Errorf("RenderCSS missing switch :checked sliding transform")
+	}
+}
+

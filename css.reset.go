@@ -151,6 +151,26 @@ func resetRules() []item {
 		rule(selector("input[type=\"radio\"]:disabled"),
 			rawRule("  opacity: 0.5;\n  cursor: not-allowed;\n  background-color: "+ColorSurfaceSunken.Var()+";"),
 		),
+		// Switch / Toggle controls: checkbox with role="switch" or class="switch".
+		rule(selector("input[type=\"checkbox\"][role=\"switch\"], input[type=\"checkbox\"].switch"),
+			rawRule("  -webkit-appearance: none;\n  appearance: none;\n  margin: 0;\n  width: 2.375rem;\n  height: 1.375rem;\n  flex-shrink: 0;\n  vertical-align: middle;\n  border: 1px solid "+ColorOutline.Var()+";\n  border-radius: "+RadiusFull.Var()+";\n  background-color: "+ColorSurfaceSunken.Var()+";\n  cursor: pointer;\n  position: relative;\n  display: inline-block;\n  transition: background-color 0.2s ease, border-color 0.2s ease;"),
+		),
+		rule(selector("input[type=\"checkbox\"][role=\"switch\"]::before, input[type=\"checkbox\"].switch::before"),
+			rawRule("  content: \"\";\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 1rem;\n  height: 1rem;\n  border-radius: "+RadiusFull.Var()+";\n  background-color: "+ColorOnPrimary.Var()+";\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);\n  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;"),
+		),
+		rule(selector("input[type=\"checkbox\"][role=\"switch\"]:hover:not(:disabled), input[type=\"checkbox\"].switch:hover:not(:disabled)"),
+			rawRule("  border-color: "+ColorMuted.Var()+";"),
+		),
+		rule(selector("input[type=\"checkbox\"][role=\"switch\"]:checked, input[type=\"checkbox\"].switch:checked"),
+			rawRule("  background-color: "+ColorPrimary.Var()+";\n  border-color: "+ColorPrimary.Var()+";\n  background-image: none;"),
+		),
+		rule(selector("input[type=\"checkbox\"][role=\"switch\"]:checked::before, input[type=\"checkbox\"].switch:checked::before"),
+			rawRule("  transform: translateX(1rem);"),
+		),
+		rule(selector("input[type=\"checkbox\"][role=\"switch\"]:disabled, input[type=\"checkbox\"].switch:disabled"),
+			rawRule("  opacity: 0.5;\n  cursor: not-allowed;"),
+		),
+
 
 		// Firefox ships placeholders at opacity 0.54, so the same muted colour
 		// reads lighter there than on Chrome or Safari.
