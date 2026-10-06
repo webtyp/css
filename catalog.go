@@ -148,7 +148,7 @@ var (
 
 	// The height every interactive row shares — a list row, a form field —
 	// so the two read as the same rhythm instead of drifting apart.
-	ControlHeight = Token{Name: "--control-height", Dark: "3.125rem"}
+	ControlHeight = Token{Name: "--control-height", Dark: "3.5rem"}
 
 	// The minimum width every interactive control shares — a checkbox, a
 	// radio — so its tap target meets the touch-size floor on BOTH axes.
