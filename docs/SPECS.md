@@ -305,6 +305,21 @@ Two levels of override:
 2. **Change the derived** (`Set(ColorSurfaceSunken, "...")`,
    `Set(MixHover, "22%")`) — substitutes the formula or intensity directly.
 
+### Default color scheme
+
+Without a declaration every page follows the OS (`color-scheme: light dark`).
+An app that is light by default says so in its stylesheet:
+
+```go
+func RootCSS() *css.Stylesheet {
+    return css.Theme(css.DefaultLight())
+}
+```
+
+It emits `:root:not([data-theme]) { color-scheme: light; }` — every page that
+loads the stylesheet gets it, including a static pre-login page with no WASM,
+and a theme toggle's `data-theme` still wins.
+
 **Warning:** a `Set(MixHover, "not-a-percentage")` makes any declaration using
 it invalid at computed-value time (the `background-color` becomes `unset`). The
 `var()` fallback covers "undefined", not "ill-defined". Override with valid CSS.

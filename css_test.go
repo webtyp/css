@@ -516,3 +516,21 @@ func TestRenderCSS_SwitchControls(t *testing.T) {
 	}
 }
 
+
+// TestDefaultLightDeclaresSchemeInStylesheet pins the declaration a static
+// page (no WASM, no JS) needs to come out light on a dark OS: it must live in
+// the stylesheet, and must yield to an explicit data-theme from a toggle.
+func TestDefaultLightDeclaresSchemeInStylesheet(t *testing.T) {
+	const want = ":root:not([data-theme])"
+	got := Theme(DefaultLight()).String()
+	i := strings.Index(got, want)
+	if i < 0 {
+		t.Fatalf("Theme(DefaultLight()) has no %s rule", want)
+	}
+	if !strings.Contains(got[i:], "color-scheme: light;") {
+		t.Errorf("the %s rule must set color-scheme: light", want)
+	}
+	if strings.Contains(Theme().String(), want) {
+		t.Errorf("Theme() without DefaultLight must keep following the OS")
+	}
+}

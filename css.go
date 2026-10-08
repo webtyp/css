@@ -52,6 +52,11 @@ type Override struct {
 	// uses to repaint this gradient at its own angle (widget/style's
 	// GradientAngle). Set only by SetGradient, alongside gradient.
 	gradientStops string
+
+	// scheme, when non-empty, is the color-scheme the page uses while no
+	// data-theme attribute says otherwise — see DefaultLight. Carries no
+	// token: it is the one Override that is not about a single token.
+	scheme string
 }
 
 // Set builds an Override for a designated Token with the specified custom value.
@@ -109,6 +114,19 @@ func ClearGradient(t Token) Override {
 	return Override{token: t, gradient: "none"}
 }
 
+// DefaultLight makes the app light unless a theme toggle has written
+// data-theme on <html>. Without it every page follows the OS (the reset's
+// `color-scheme: light dark`).
+//
+// It lives in the stylesheet, not in WASM, because a page served before login
+// carries HTML+CSS only: a scheme set from Go code never reaches it, and the
+// login would come out dark on a dark OS while the app behind it is light.
+// The rule is scoped to :root:not([data-theme]) so an explicit choice — the
+// reset's [data-theme="dark"] — still wins, whatever its cascade layer.
+func DefaultLight() Override {
+	return Override{scheme: "light"}
+}
+
 // Theme returns the entire RootCSS() catalog with custom overrides appended.
 func Theme(overrides ...Override) *Stylesheet {
 	catalog := RootCSS() // default catalog
@@ -116,7 +134,12 @@ func Theme(overrides ...Override) *Stylesheet {
 		return catalog
 	}
 	var decls []decl
+	scheme := ""
 	for _, o := range overrides {
+		if o.scheme != "" {
+			scheme = o.scheme
+			continue
+		}
 		if o.value != "" {
 			decls = append(decls, decl{o.token.Name, o.value})
 		}
@@ -131,7 +154,13 @@ func Theme(overrides ...Override) *Stylesheet {
 			decls = append(decls, decl{o.token.ImageStopsVarName(), o.gradientStops})
 		}
 	}
-	return withRootTail(catalog, root(decls...))
+	if len(decls) > 0 {
+		catalog = withRootTail(catalog, root(decls...))
+	}
+	if scheme != "" {
+		catalog = withRootTail(catalog, rule(selector(":root:not([data-theme])"), decl{"color-scheme", scheme}))
+	}
+	return catalog
 }
 
 func withRootTail(s *Stylesheet, it item) *Stylesheet {

@@ -90,15 +90,16 @@ después, que es el caso malo de la tabla de arriba.
 
 ## Tema único
 
-Un sitio sin modo oscuro — la mayoría de los sitios de marca — fija qué mitad
-gana con `color-scheme`:
+Un sitio sin modo oscuro — la mayoría de los sitios de marca — lo declara en su
+hoja de estilos:
 
-```css
-:root { color-scheme: light }
+```go
+css.Theme(css.DefaultLight())
 ```
 
-`css.reset.go` ya emite `color-scheme: light` para `[data-theme="light"]`, así
-que ponerlo en el `<html>` consigue lo mismo por la vía tipada.
+Emite `:root:not([data-theme]) { color-scheme: light; }`. Vive en el CSS y no en
+el wasm porque una página previa al login no lleva wasm: un esquema fijado desde
+Go nunca le llega. El `:not([data-theme])` deja que un toggle siga ganando.
 
 ## Qué se rompió antes de esto
 
