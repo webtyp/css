@@ -150,6 +150,11 @@ var (
 	// so the two read as the same rhythm instead of drifting apart.
 	ControlHeight = Token{Name: "--control-height", Dark: "3.5rem"}
 
+	// ControlHeightCompact is the standard compact touch control height
+	// based on the industry ergonomic standard (Apple HIG / WCAG 2.2 AAA):
+	// 44px (2.75rem).
+	ControlHeightCompact = Token{Name: "--control-height-compact", Dark: "2.75rem"}
+
 	// The minimum width every interactive control shares — a checkbox, a
 	// radio — so its tap target meets the touch-size floor on BOTH axes.
 	// ControlHeight alone only sizes the block axis: a native checkbox is

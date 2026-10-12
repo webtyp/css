@@ -2,6 +2,8 @@
 
 package css
 
+// Base framework reset and theme token bindings.
+
 // resetRules are the base reset rules RenderCSS() emits in the `tokens`
 // layer — the lowest of the four the widget style DSL declares. Unlayered,
 // `svg { display: block }` would beat `@layer widgets { .part { display:
@@ -40,6 +42,15 @@ func resetRules() []item {
 		rule(selector(":focus-visible"),
 			outline(str("2px solid "+ColorAccent.Var())),
 			outlineOffset(px(-2)),
+		),
+		// Compound searchbar: the focus ring surrounds the whole control
+		// (magnifier + field), suppressing the inner <input>'s separate outline.
+		rule(selector(".searchbar:focus-within"),
+			outline(str("2px solid "+ColorAccent.Var())),
+			outlineOffset(px(-2)),
+		),
+		rule(selector(".searchbar__input:focus, .searchbar__input:focus-visible"),
+			outline(str("none")),
 		),
 		// User-agent margins and list chrome are geometry the style DSL cannot
 		// express and cannot see. A <ul> used as a nav rail carries 40px of
@@ -104,7 +115,7 @@ func resetRules() []item {
 		// undo. Parts that DO want an edge declare it themselves and win here
 		// anyway: this rule is @layer tokens, a skin is @layer widgets.
 		rule(selector("input:where(:not([type=\"checkbox\"]):not([type=\"radio\"])), textarea"),
-			rawRule("  -webkit-appearance: none;\n  appearance: none;\n  border: 0;\n  border-radius: 0;"),
+			rawRule("  -webkit-appearance: none;\n  appearance: none;\n  color: inherit;\n  border: 0;\n  border-radius: 0;"),
 		),
 		// Firefox and Edge let a <select> inherit text-transform from an
 		// ancestor; every other engine does not, so an uppercased container
