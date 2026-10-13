@@ -19,7 +19,7 @@ The public API consists solely of:
 - The design token catalog (e.g., `ColorPrimary`, `ColorSurface`, `Space2`, `MixHover`, etc.).
 - `Hover(t)`, `Focus(t)`, `Press(t)` — interaction derivations via `color-mix()`.
 - `Device`, `Mobile`, `Tablet`, `Desktop`, `Query(...)` — typed viewport classes for media queries.
-- `Stylesheet` and `NewStylesheet` for compilation.
+- `Stylesheet` and `NewStylesheet` for compilation. A `*Stylesheet` is itself an item: `NewStylesheet(a, b)` is one sheet holding both (a package with several widgets returns one `RenderCSS`).
 - `Theme`, `Set`, `SetTheme` for rebranded app themes.
 - `RootCSS`, `RenderCSS`, `FontFaces`, `Raw` — CSS emitters (`FontFaces` is separate from the SSR root/render slots).
 

@@ -16,10 +16,17 @@ func (s *Stylesheet) String() string {
 	// Releasing it twice puts the same pointer in the pool twice, so two later
 	// Convert() calls hand back the same buffer and corrupt each other.
 	b := fmt.GetConv()
+	s.writeTo(b)
+	return b.String()
+}
+
+// writeTo makes a Stylesheet an item: NewStylesheet(a, b) is one sheet holding
+// both, so a package with several widgets returns one RenderCSS without
+// gluing strings.
+func (s *Stylesheet) writeTo(b *fmt.Builder) {
 	for _, it := range s.items {
 		it.writeTo(b)
 	}
-	return b.String()
 }
 
 // Selector is a raw CSS selector string used by the DSL.
