@@ -273,3 +273,15 @@ func TestStylesheetStringIsRepeatable(t *testing.T) {
 		}
 	}
 }
+
+// TestDSL_StylesheetComposes: a package with several widgets ships one
+// RenderCSS — the sheets of its widgets passed to NewStylesheet, in order,
+// with no string glue.
+func TestDSL_StylesheetComposes(t *testing.T) {
+	a := NewStylesheet(Raw(".a{}"))
+	b := NewStylesheet(Raw(".b{}"))
+	got := NewStylesheet(a, b).String()
+	if want := a.String() + b.String(); got != want {
+		t.Fatalf("composed sheet = %q, want %q", got, want)
+	}
+}
