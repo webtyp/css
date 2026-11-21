@@ -2,6 +2,20 @@
 
 package css
 
+// toneRules derives theme-adapted opaque tinted background, high-contrast foreground,
+// and border from any runtime --tone-color CSS custom property (populated from the
+// database palette table, never hardcoded in Go or CSS). Mixed against ColorBackground
+// (never transparent) so badges riding a card's edge stay crisp and opaque.
+func toneRules() []item {
+	return []item{
+		rule(selector(`[data-toned="1"]`),
+			decl{"background-color", "color-mix(in oklab, var(--tone-color) 18%, " + ColorBackground.Var() + ")"},
+			decl{"color", "color-mix(in oklab, var(--tone-color), light-dark(#000000, #ffffff) 32%)"},
+			decl{"border-color", "color-mix(in oklab, var(--tone-color) 45%, " + ColorBackground.Var() + ")"},
+		),
+	}
+}
+
 // themeTokens are the colours whose value adapts to the theme. They are
 // declared twice: the static half here, the adaptive half inside
 // ModernColorSupport — see declare() and enhancedDecls().
@@ -51,6 +65,7 @@ func defaultRoots() []item {
 			declare(MixHover),
 			declare(MixFocus),
 			declare(MixPress),
+			declare(ToneColor),
 		),
 		root(
 			// Typography scale

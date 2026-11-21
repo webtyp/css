@@ -71,6 +71,10 @@ var (
 	// Faded 70%, not 85% like the accent wash: at 85% the red reads pink.
 	ColorDangerWash = Token{Name: "--color-danger-wash", Dark: "color-mix(in oklab, " + ColorDanger.NestedEnhanced() + ", transparent 70%)", LightStatic: FadeStatic(ColorDanger, 0.70)}
 
+	// ToneColor is overridden inline on badges/chips from the database palette table
+	// (never hardcoded); default transparent keeps neutral badges untouched.
+	ToneColor = Token{Name: "--tone-color", Dark: "transparent"}
+
 	FontSans = Token{Name: "--font-sans", Dark: `"Roboto", system-ui, -apple-system, sans-serif`}
 	TextXs   = Token{Name: "--text-xs", Dark: "0.75rem"}
 	TextSm   = Token{Name: "--text-sm", Dark: "0.875rem"}

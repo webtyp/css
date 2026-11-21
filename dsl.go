@@ -293,7 +293,6 @@ func (s stringValue) cssValue() string { return string(s) }
 
 func px(n int) value         { return stringValue(fmt.Sprintf("%dpx", n)) }
 func rem(f float64) value    { return stringValue(fmt.Sprintf("%grem", f)) }
-func em(f float64) value     { return stringValue(fmt.Sprintf("%gem", f)) }
 func pct(n int) value        { return stringValue(fmt.Sprintf("%d%%", n)) }
 func vw(f float64) value     { return stringValue(fmt.Sprintf("%gvw", f)) }
 func vh(f float64) value     { return stringValue(fmt.Sprintf("%gvh", f)) }
@@ -306,18 +305,14 @@ type kw string
 func (k kw) cssValue() string { return string(k) }
 
 var (
-	auto    value = kw("auto")
-	none    value = kw("none")
-	block   value = kw("block")
-	flex_   value = kw("flex")
-	grid    value = kw("grid")
-	inline  value = kw("inline-block")
-	center  value = kw("center")
-	zero    value = kw("0")
-	pointer value = kw("pointer")
+	auto   value = kw("auto")
+	none   value = kw("none")
+	block  value = kw("block")
+	grid   value = kw("grid")
+	center value = kw("center")
+	zero   value = kw("0")
 
 	fixed       value = kw("fixed")
-	absolute    value = kw("absolute")
 	unset       value = kw("unset")
 	initial     value = kw("initial")
 	flexEnd     value = kw("flex-end")
@@ -327,14 +322,11 @@ var (
 	hidden      value = kw("hidden")
 	visible     value = kw("visible")
 	uppercase   value = kw("uppercase")
-	capitalize  value = kw("capitalize")
 	rightText   value = kw("right")
 
 	relative     value = kw("relative")
 	spaceBetween value = kw("space-between")
-	inlineFlex   value = kw("inline-flex")
 	wrap         value = kw("wrap")
-	flexStart    value = kw("flex-start")
 	noRepeat     value = kw("no-repeat")
 )
 
@@ -354,45 +346,27 @@ func joinValues(vs []value) string {
 	return b.String()
 }
 
-func background(v value) decl          { return decl{"background", v.cssValue()} }
-func backgroundColor(v value) decl     { return decl{"background-color", v.cssValue()} }
-func backgroundImage(v value) decl     { return decl{"background-image", v.cssValue()} }
-func color(v value) decl               { return decl{"color", v.cssValue()} }
-func padding(v ...value) decl          { return decl{"padding", joinValues(v)} }
-func margin(v ...value) decl           { return decl{"margin", joinValues(v)} }
-func border(v ...value) decl           { return decl{"border", joinValues(v)} }
-func borderColor(v value) decl         { return decl{"border-color", v.cssValue()} }
-func borderRadius(v ...value) decl     { return decl{"border-radius", joinValues(v)} }
-func boxShadow(v value) decl           { return decl{"box-shadow", v.cssValue()} }
-func boxSizing(v value) decl           { return decl{"box-sizing", v.cssValue()} }
-func display(v value) decl             { return decl{"display", v.cssValue()} }
-func flex(v ...value) decl             { return decl{"flex", joinValues(v)} }
-func flexDirection(v value) decl       { return decl{"flex-direction", v.cssValue()} }
-func gap(v value) decl                 { return decl{"gap", v.cssValue()} }
-func justifyContent(v value) decl      { return decl{"justify-content", v.cssValue()} }
-func alignItems(v value) decl          { return decl{"align-items", v.cssValue()} }
-func width(v value) decl               { return decl{"width", v.cssValue()} }
-func height(v value) decl              { return decl{"height", v.cssValue()} }
-func maxWidth(v value) decl            { return decl{"max-width", v.cssValue()} }
-func minHeight(v value) decl           { return decl{"min-height", v.cssValue()} }
-func fontSize(v value) decl            { return decl{"font-size", v.cssValue()} }
-func fontWeight(v value) decl          { return decl{"font-weight", v.cssValue()} }
-func lineHeight(v value) decl          { return decl{"line-height", v.cssValue()} }
-func letterSpacing(v value) decl       { return decl{"letter-spacing", v.cssValue()} }
-func transition(v ...value) decl       { return decl{"transition", joinValues(v)} }
-func animation(v ...value) decl        { return decl{"animation", joinValues(v)} }
-func transform(v value) decl           { return decl{"transform", v.cssValue()} }
-func cursor(v value) decl              { return decl{"cursor", v.cssValue()} }
-func outline(v value) decl             { return decl{"outline", v.cssValue()} }
-func outlineOffset(v value) decl       { return decl{"outline-offset", v.cssValue()} }
-func opacity(v float64) decl           { return decl{"opacity", fmt.Sprintf("%g", v)} }
-func pointerEvents(v value) decl       { return decl{"pointer-events", v.cssValue()} }
-func position(v value) decl            { return decl{"position", v.cssValue()} }
-func top(v value) decl                 { return decl{"top", v.cssValue()} }
-func right(v value) decl               { return decl{"right", v.cssValue()} }
-func bottom(v value) decl              { return decl{"bottom", v.cssValue()} }
-func left(v value) decl                { return decl{"left", v.cssValue()} }
-func zIndex(v value) decl              { return decl{"z-index", v.cssValue()} }
+func background(v value) decl      { return decl{"background", v.cssValue()} }
+func backgroundColor(v value) decl { return decl{"background-color", v.cssValue()} }
+func color(v value) decl           { return decl{"color", v.cssValue()} }
+func padding(v ...value) decl      { return decl{"padding", joinValues(v)} }
+func margin(v ...value) decl       { return decl{"margin", joinValues(v)} }
+func border(v ...value) decl       { return decl{"border", joinValues(v)} }
+func boxSizing(v value) decl       { return decl{"box-sizing", v.cssValue()} }
+func display(v value) decl         { return decl{"display", v.cssValue()} }
+func flexDirection(v value) decl   { return decl{"flex-direction", v.cssValue()} }
+func justifyContent(v value) decl  { return decl{"justify-content", v.cssValue()} }
+func width(v value) decl           { return decl{"width", v.cssValue()} }
+func maxWidth(v value) decl        { return decl{"max-width", v.cssValue()} }
+func fontSize(v value) decl        { return decl{"font-size", v.cssValue()} }
+func lineHeight(v value) decl      { return decl{"line-height", v.cssValue()} }
+func transform(v value) decl       { return decl{"transform", v.cssValue()} }
+func outline(v value) decl         { return decl{"outline", v.cssValue()} }
+func outlineOffset(v value) decl   { return decl{"outline-offset", v.cssValue()} }
+func opacity(v float64) decl       { return decl{"opacity", fmt.Sprintf("%g", v)} }
+func position(v value) decl        { return decl{"position", v.cssValue()} }
+func top(v value) decl             { return decl{"top", v.cssValue()} }
+func bottom(v value) decl          { return decl{"bottom", v.cssValue()} }
 func fontFamily(v value) decl          { return decl{"font-family", v.cssValue()} }
 func minWidth(v value) decl            { return decl{"min-width", v.cssValue()} }
 func maxHeight(v value) decl           { return decl{"max-height", v.cssValue()} }

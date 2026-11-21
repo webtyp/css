@@ -16,6 +16,7 @@ func FontStack(family font.Family) string {
 
 func RootCSS() *Stylesheet {
 	items := append([]item{brandRoot()}, defaultRoots()...)
+	items = append(items, toneRules()...)
 	return NewStylesheet(items...)
 }
 

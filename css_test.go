@@ -345,6 +345,7 @@ func TestNoUndeclaredTokensInEmittedCSS(t *testing.T) {
 		RailNarrow, RailWide,
 		ControlHeight, ControlHeightCompact, ControlWidth, ChipWidth, ChipHeight, VeilBlur,
 		SafeTop, SafeRight, SafeBottom, SafeLeft, ViewportH,
+		ToneColor,
 	}
 	for _, tok := range allTokens {
 		knownTokens[tok.GetName()] = true
